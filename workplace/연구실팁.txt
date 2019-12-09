@@ -1,4 +1,9 @@
 sour_9549
 8889009*
-
+hjinlee@snu.ac.kr
+manipulator
 Extension ID : com.HJI.workplace
+
+Pick & Place
+mp3 파일과 같은 파일로 실행 가능한지
+즉 AI스피커 없이 음성으로 말한것을 전송 가능한지여부
