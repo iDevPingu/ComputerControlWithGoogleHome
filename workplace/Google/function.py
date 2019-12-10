@@ -9,7 +9,7 @@ from vectorizer import BaseVectorizer
 
 keras = tf.keras
 
-MAX_LENGTH = 40
+MAX_LENGTH = 10
 def tokenize_and_filter(sentences, labels):
     inputs, outputs = [], []
   
@@ -51,3 +51,4 @@ def tokenizer():
     t = Okt()
     token = BaseVectorizer(t.morphs)
     return token
+
