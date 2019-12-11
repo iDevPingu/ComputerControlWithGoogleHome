@@ -80,6 +80,63 @@ def webhook():
         for i in key:
             returntext += (i+' = '+result[i]+' ')
         return {'fulfillmentText':returntext}
+
+    elif intent == 'Pickandplace':
+        start = req['queryResult']['parameters']['start']
+        destination = req['queryResult']['parameters']['destination']
+        stuff = req['queryResult']['parameters']['stuff']
+        startfeature = req['queryResult']['parameters']['startfeature']
+        destinationfeature = req['queryResult']['parameters']['destinationfeature']
+        stufffeature = req['queryResult']['parameters']['stufffeature']
+        verb = req['queryResult']['parameters']['endverb']
+
+        returntext = ''
+        returntext += '처음 물건이 있는 곳 : {}\n'.format(start)
+        returntext += '처음 물건이 있는 곳 특징 : '
+        if len(startfeature) == 0 :
+            pass
+        else:
+            for i in startfeature:
+                returntext += (str(i)+' ')
+            returntext += '\n'
+            startentity = entity분석(startfeature)
+            for i in startentity.keys():
+                returntext += (i + ' = ' + startentity[i] + ' ')
+
+        returntext += '\n'
+        returntext += '옮길 물건 : {}\n'.format(stuff)
+        returntext += '옮길 물건의 특징 : '
+        if len(stufffeature) == 0:
+            pass
+        else:
+            for i in stufffeature:
+                returntext += (str(i) + ' ')
+            returntext += '\n'
+            sfentity = entity분석(stufffeature)
+            for i in sfentity.keys():
+                returntext += (i+' = '+sfentity[i]+' ')
+
+        returntext += '\n'
+        returntext += '물건을 옮길 곳 : {}\n'.format(destination)
+        returntext += '물건을 옮길 곳 특징 : '
+        
+        if len(destinationfeature) == 0:
+            pass
+        else:
+            for i in destinationfeature:
+                returntext += (str(i) + ' ')
+            returntext += '\n'
+            detentity = entity분석(destinationfeature)
+            for i in detentity.keys():
+                returntext += (i + ' = ' + detentity[i] + ' ')
+                
+        returntext += '\n'
+        returntext += '할 일 : {}'.format(verb)
+
+
+        
+
+        return {'fulfillmentText':returntext}
     else:
         return {'fulfillmentText':'죄송합니다 잘 알아듣지 못했어요'}
 
