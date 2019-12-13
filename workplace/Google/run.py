@@ -3,7 +3,7 @@ from flask import Flask, request, make_response, jsonify
 import shutil
 import subprocess
 import json
-from function import question_processing,tokenize_and_filter,tokenizer
+from function import *
 import pandas as pd
 import numpy as np
 import tensorflow as tf
@@ -22,6 +22,8 @@ intenttoken.fit(intentdf['question'].values)
 
 entitytoken = tokenizer()
 entitytoken.fit(entitydf['word'].values)
+entitytoken.get_char2idx()
+
 
 intentmodel = keras.models.load_model('my_model.h5')
 entitymodel = keras.models.load_model('entitytestmodel.h5')
@@ -37,7 +39,7 @@ def 형태소분석(text):
     return 명사
 
 def entity분석(명사):
-    inputdata = question_processing(명사,entitytoken)
+    inputdata = Entity_question_processing(명사,entitytoken)
     prediction = list(np.argmax(entitymodel.predict(inputdata),axis=1))
     print(명사)
     print(prediction)
@@ -59,7 +61,7 @@ def webhook():
     intent = req['queryResult']['intent']['displayName']
     text = req['queryResult']['queryText']
     print("유저가 한 말 : "+text)
-    inputdata = question_processing([text],intenttoken)
+    inputdata = Intent_question_processing([text],intenttoken)
     prediction = np.argmax(intentmodel.predict(inputdata),axis=1)
     print("예측 값 : {}".format(prediction[0]))
     if intent == 'Internet' and prediction[0] == 0:
